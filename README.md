@@ -3,7 +3,7 @@
   <img src="https://user-images.githubusercontent.com/62047147/195847997-97553030-3b79-4643-9f2c-1f04bba6b989.png" alt="logo" width="100" height="auto" />
   
   <h1> TamaFi </h1>
-  <p> TamaFi is an open-source, WiFi-enabled virtual pet </p>
+  <p> WiFi-fed, fully autonomous virtual pet powered by ESP32-S3 </p>
 
 
 <!-- Badges -->
@@ -37,96 +37,178 @@ Ready to dive deeper into TamaFi's details? Discover the full story, in-depth tu
 
 <!-- About the Project -->
 ## :star2: About the Project
-TamaFi is a modern reimagining of the classic Tamagotchi, aiming to blend nostalgia with modern technology. Built with an ESP32 microcontroller and a vibrant TFT LCD, TamaFi offers a unique twist: feeding your virtual pet through Wi-Fi scanning.
+TamaFi is a modern, WiFi-aware virtual pet.  
+V2 rebuilds the original project with **new hardware**, **smarter logic**, and a **clean, compact PCB** that actually feels like a finished device.
 
-Why TamaFi?
-- Classic Tamagotchis lacked vibrant graphics, backlighting, and modern interactions.
-- TamaFi fills this gap by offering an enhanced virtual pet experience with open-source versatility.
+The pet lives on an ESP32-S3, eats nearby WiFi, evolves over time, and makes its own decisions based on the environment around it.
 
-<div align="center"> 
-  <img src="https://github.com/user-attachments/assets/a794684d-21be-4686-9882-417a9f257f73" alt="screenshot" width="Auto" height="Auto" />
-</div>
+---
 
+## ✨ Highlights (V2)
 
-<div>&nbsp;</div>
+- ⚙ **ESP32-S3 based** – more performance, native USB, better room for future features  
+- 🖥 **TFT ST7789 240×240** – full-color UI, custom sprites, status bars, menus  
+- 🧠 **Autonomous behavior engine** – the pet hunts, explores, rests, and reacts on its own  
+- 📶 **WiFi-fed** – nearby networks affect hunger, happiness, and health  
+- 🎛 **Full menu system** – Pet Status, Environment, System Info, Controls, Settings, Diagnostics  
+- 💾 **Persistent state** – age, stats, stage, settings stored in flash (Preferences)  
+- 🌈 **4× WS2812-2020 NeoPixels** – mood & activity feedback (happy/sad/wifi/rest patterns)  
+- 🔊 **Retro sound engine** – non-blocking chiptune-style beeps and sequences  
+- 🔋 **Battery-ready** – TP4056 charger + MOSFET-controlled TFT backlight  
+- 🖱 **6 soft tactile switches** – three on each side for navigation and shortcuts  
+- 🛠 **DisplayKit-ready UI workflow** – UI graphics can be designed/exported via DisplayKit
 
+> ⚠️ Some advanced / sensitive behaviors are intentionally simplified or left as placeholders in the public firmware.  
+> This project is for learning, tinkering, and fun — **not** for breaking things.
 
-<h2>🛠 Functionality Status and Reliability</h2>
+---
 
-TamaFi is a work-in-progress and has room for improvement. While it’s functional and exciting to use, there’s always room to make it better, more reliable, and feature-rich. Whether it’s optimizing the code, enhancing the design, or suggesting new features, your contributions are highly welcomed!
+## 🧩 How TamaFi V2 Behaves
 
-<table>
-  <thead>
-    <tr>
-      <th>Feature</th>
-      <th>Status</th>
-      <th>Details</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Pet Animation</td>
-      <td>⚠ Stable</td>
-      <td>Includes hatching, random, and stat-based animations.</td>
-    </tr>
-    <tr>
-      <td>Stat Management</td>
-      <td>⚠ Stable</td>
-      <td>Hunger, happiness, and hygiene stats are tracked and updated.</td>
-    </tr>
-    <tr>
-      <td>Wi-Fi Feeding</td>
-      <td>🚧 In Progress</td>
-      <td>Detects nearby networks and feeds the pet.</td>
-    </tr>
-    <tr>
-      <td>TFT LCD Display</td>
-      <td>✅ Reliable</td>
-      <td>Displays sprites, stats, and animations with smooth transitions.</td>
-    </tr>
-    <tr>
-      <td>Button Inputs</td>
-      <td>⚠ Stable</td>
-      <td>Three microswitches handle user interaction.</td>
-    </tr>
-    <tr>
-      <td>PCB Design</td>
-      <td>✅ Verified</td>
-      <td>Tested for compatibility and efficient layout.</td>
-    </tr>
-    <tr>
-      <td>RGB LED and Buzzer Integration</td>
-      <td>🚧 In Progress</td>
-      <td>Planned for the next release.</td>
-    </tr>
-  </tbody>
-</table>
+TamaFi isn’t just a sprite animation loop. It runs a small decision engine that constantly evaluates:
 
+- Pet stats: `hunger`, `happiness`, `health`
+- Traits: curiosity, activity, stress
+- Environment: number of nearby networks, open/hidden networks, average RSSI
+- Time: age (minutes → hours → days)
 
-<div>&nbsp;</div>
+From that, it decides whether to:
 
+- 🍖 **Hunt** – use WiFi scan results to “feed” and adjust hunger/happiness/health  
+- 👁 **Explore** – react to open/hidden networks and network diversity  
+- 😴 **Rest** – enter a sleep cycle with special egg animation and recovery stats  
+- 😐 **Idle** – chill on the home screen with mood-based idle animations  
 
-<!-- Features -->
-### 🎯 Features
+### Mood system
 
-**Hardware:**
+The pet mood changes based on stats + environment:
 
-- ESP32-U4 microcontroller
-- TFT LCD (ST7789) with vibrant visuals
-- WS2812 RGB LED for colorful effects
-- Buzzer for sound alerts
-- TP4056 charging module with USB-C
-- LF33 voltage regulator
+- `HUNGRY` – low hunger  
+- `HAPPY` – good stats + decent WiFi  
+- `CURIOUS` – hidden/open networks nearby  
+- `BORED` – no WiFi for too long  
+- `SICK` – low health or bad conditions  
+- `EXCITED` / `CALM` – good conditions & variety
 
-**Software:**
+Mood affects:
 
-- Custom animations for pets and stats
-- WiFi-based feeding system
-- Interactive buttons for actions
-- Egg-hatching and pet-death animations
-- Open-source and easily customizable
+- Idle animation speed  
+- LED patterns  
+- How often it wants to hunt / explore / rest  
 
-<div>&nbsp;</div>
+### Evolution
+
+Age is tracked in **minutes, hours, and days**:
+
+- `BABY` → `TEEN` → `ADULT` → `ELDER`
+
+Evolution depends on:
+
+- Time alive  
+- Average of hunger / happiness / health  
+- Environment quality
+
+Reaching a new stage triggers special SFX + animations.
+
+---
+
+## 🖥 UI & Menu System
+
+All rendering goes through a 240×240 framebuffer (`TFT_eSPI` + `TFT_eSprite`) to avoid flicker.
+
+### Home Screen
+
+- Pet sprite (idle / hunt / rest / special states)  
+- Background image  
+- Stats bars: Hunger, Happiness, Health  
+- Mood + Stage text  
+- Activity label in the top bar (`Idle`, `Hunting…`, `Resting…`, etc.)  
+- Overlays for special effects (e.g. hunger effect)
+
+### Menus
+
+Navigation is done using the left 3 buttons (UP / OK / DOWN).
+
+**Main Menu:**
+
+1. **Pet Status** – stats, mood, age, stage, short description  
+2. **Environment** – WiFi network counts, hidden/open, “signal mood”  
+3. **System Info** – firmware version, uptime, battery (if implemented), etc.  
+4. **Controls** – brightness, LED level, sound on/off, NeoPixel on/off  
+5. **Settings** – auto-sleep, auto-save interval, soft reset options  
+6. **Diagnostics** – debug info, test modes (non-destructive)  
+7. **Back to Home**
+
+Changes in Controls/Settings are saved to NVS via `Preferences`, so they persist across reboots.
+
+---
+
+## 🔌 Hardware Overview
+
+> This is a summary of the V2 hardware stack.  
+> Check the `PCB/` and `Schematic/` directories for full details.
+
+### Core
+
+- **MCU:** ESP32-S3 module  
+- **Display:** 1.3–1.54" TFT ST7789 @ 240×240  
+- **Buttons:** 6× soft tactile switches  
+- **LEDs:** 4× WS2812-2020 addressable RGB  
+- **Buzzer:** driven with PWM (LEDc) for retro SFX
+
+### Power
+
+- **Charger:** TP4056 (single-cell Li-ion/Li-Po)  
+- **Backlight control:** MOSFET on TFT LED pin, driven by PWM for brightness levels  
+- **Power input:** USB-C (on PCB)  
+
+### Connectivity / Dev
+
+- ESP32-S3 native USB for firmware upload  
+- Optional **CP2102 USB-to-TTL** on the board for easier flashing / serial during development
+
+---
+
+## 🧰 Firmware
+
+The firmware is written for **Arduino IDE** using:
+
+- `TFT_eSPI`  
+- `Adafruit_NeoPixel`  
+- `WiFi`  
+- `Preferences`  
+
+### Core modules (conceptual)
+
+- `main.ino` – hardware init, timers, logic tick, button handling  
+- `ui.cpp / ui.h` – rendering, menus, bar drawing, layout  
+- `ui_anim.h` – sprite frame tables for idle, egg, hunt, etc.  
+- `sound` – non-blocking retro sound sequencer using LEDc  
+- `state` – pet stats, traits, persistence with `Preferences`
+
+> The code is structured around **non-blocking updates**:  
+> no `delay()` in the main logic, so animations, WiFi, sound, and UI can all coexist smoothly.
+
+---
+
+## 🧪 Status
+
+> V2 is still under active development. Expect rough edges.
+
+| Area            | Status       | Notes                                      |
+|-----------------|-------------|--------------------------------------------|
+| Core stats      | ✅ Stable    | Hunger, happiness, health, age             |
+| Mood system     | ✅ Stable    | Driven by stats + WiFi environment         |
+| Evolution       | ✅ Stable    | Multi-stage, environment-aware             |
+| WiFi “feeding”  | ⚠ In progress | Logic works; tuning values ongoing       |
+| Rest system     | ✅ Stable    | Enter/exit animations + stat recovery      |
+| Hunt animation  | ✅ Stable    | Uses dedicated attack frames               |
+| Menus & UI      | ⚠ In progress | Layout & styling still evolving          |
+| Sound engine    | ✅ Stable    | Non-blocking retro SFX                     |
+| NeoPixel effects| ⚠ In progress | Mood + activity patterns, still tweaking |
+| Desktop tooling | ⚠ Planned   | Companion webapp / deeper integration      |
+
+---
 
 <!-- License -->
 ## :warning: License
