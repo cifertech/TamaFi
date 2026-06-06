@@ -1,29 +1,28 @@
+
+
 <div align="center">
 
-  <img src="https://user-images.githubusercontent.com/62047147/195847997-97553030-3b79-4643-9f2c-1f04bba6b989.png" alt="logo" width="100" height="auto" />
-  
-  <h1> TamaFi </h1>
-  <p> WiFi-fed, fully autonomous virtual pet powered by ESP32-S3 </p>
+  <img src="https://github.com/user-attachments/assets/11102964-1235-43cf-9924-6c485556b22d" alt="TamaFi Banner" width="100%"/>
 
+  <br/>
+  <br/>
 
-<!-- Badges -->
-<a href="https://github.com/cifertech/TamaFi" title="Go to GitHub repo"><img src="https://img.shields.io/static/v1?label=cifertech&message=TamaFi&color=white&logo=github" alt="cifertech - TamaFi"></a>
-<a href="https://github.com/cifertech/TamaFi"><img src="https://img.shields.io/github/stars/cifertech/TamaFi?style=social" alt="stars - TamaFi"></a>
-<a href="https://github.com/cifertech/TamaFi"><img src="https://img.shields.io/github/forks/cifertech/TamaFi?style=social" alt="forks - TamaFi"></a>
+  <p align="center">
+    <a href="https://github.com/cifertech/TamaFi"><img src="https://img.shields.io/static/v1?label=cifertech&message=TamaFi&color=7e57c2&logo=github"/></a>
+    <a href="https://github.com/cifertech/TamaFi"><img src="https://img.shields.io/github/stars/cifertech/TamaFi?style=social"/></a>
+    <a href="https://github.com/cifertech/TamaFi"><img src="https://img.shields.io/github/forks/cifertech/TamaFi?style=social"/></a>
+    <img src="https://img.shields.io/badge/ESP32--S3-%20Virtual%20Pet-7e57c2"/>
+    <img src="https://img.shields.io/badge/license-MIT-7e57c2"/>
+  </p>
 
-   
-<h4>
-    <a href="https://twitter.com/techcifer">TWITTER</a>
-  <span> · </span>
-    <a href="https://www.instagram.com/cifertech/">INSTAGRAM</a>
-  <span> · </span>
-    <a href="https://www.youtube.com/@techcifer">YOUTUBE</a>
-  <span> · </span>
-    <a href="https://cifertech.net/">WEBSITE</a>
-  </h4>
+  <p align="center">
+    <a href="https://twitter.com/techcifer"><img src="https://img.shields.io/badge/Twitter-7e57c2?logo=x&logoColor=white"/></a>
+    <a href="https://www.instagram.com/cifertech/"><img src="https://img.shields.io/badge/Instagram-7e57c2?logo=instagram&logoColor=white"/></a>
+    <a href="https://www.youtube.com/@techcifer"><img src="https://img.shields.io/badge/YouTube-7e57c2?logo=youtube&logoColor=white"/></a>
+    <a href="https://cifertech.net/"><img src="https://img.shields.io/badge/Website-7e57c2?logo=googlechrome&logoColor=white"/></a>
+  </p>
+
 </div>
-
-<br />
 
 
 <div>&nbsp;</div>
@@ -42,7 +41,10 @@ V2 rebuilds the original project with **new hardware**, **smarter logic**, and a
 
 The pet lives on an ESP32-S3, eats nearby WiFi, evolves over time, and makes its own decisions based on the environment around it.
 
----
+<img width="1280" height="720" alt="YouTube-Thumbnailtamafiaaa" src="https://github.com/user-attachments/assets/af6b2926-7c0a-49ef-aaa4-01414d803ea6" />
+
+
+<div>&nbsp;</div>
 
 ## ✨ Highlights (V2)
 
@@ -61,7 +63,7 @@ The pet lives on an ESP32-S3, eats nearby WiFi, evolves over time, and makes its
 > ⚠️ Some advanced / sensitive behaviors are intentionally simplified or left as placeholders in the public firmware.  
 > This project is for learning, tinkering, and fun — **not** for breaking things.
 
----
+<div>&nbsp;</div>
 
 ## 🧩 How TamaFi V2 Behaves
 
@@ -110,7 +112,7 @@ Evolution depends on:
 
 Reaching a new stage triggers special SFX + animations.
 
----
+<div>&nbsp;</div>
 
 ## 🖥 UI & Menu System
 
@@ -141,7 +143,7 @@ Navigation is done using the left 3 buttons (UP / OK / DOWN).
 
 Changes in Controls/Settings are saved to NVS via `Preferences`, so they persist across reboots.
 
----
+<div>&nbsp;</div>
 
 ## 🔌 Hardware Overview
 
@@ -167,7 +169,7 @@ Changes in Controls/Settings are saved to NVS via `Preferences`, so they persist
 - ESP32-S3 native USB for firmware upload  
 - Optional **CP2102 USB-to-TTL** on the board for easier flashing / serial during development
 
----
+<div>&nbsp;</div>
 
 ## 🧰 Firmware
 
@@ -189,7 +191,7 @@ The firmware is written for **Arduino IDE** using:
 > The code is structured around **non-blocking updates**:  
 > no `delay()` in the main logic, so animations, WiFi, sound, and UI can all coexist smoothly.
 
----
+<div>&nbsp;</div>
 
 ## 🧪 Status
 
@@ -200,7 +202,7 @@ The firmware is written for **Arduino IDE** using:
 | Core stats      | ✅ Stable    | Hunger, happiness, health, age             |
 | Mood system     | ✅ Stable    | Driven by stats + WiFi environment         |
 | Evolution       | ✅ Stable    | Multi-stage, environment-aware             |
-| WiFi “feeding”  | ⚠ In progress | Logic works; tuning values ongoing       |
+| WiFi “feeding”  | ✅ Stable    | Logic works; tuning values ongoing       |
 | Rest system     | ✅ Stable    | Enter/exit animations + stat recovery      |
 | Hunt animation  | ✅ Stable    | Uses dedicated attack frames               |
 | Menus & UI      | ⚠ In progress | Layout & styling still evolving          |
@@ -208,14 +210,14 @@ The firmware is written for **Arduino IDE** using:
 | NeoPixel effects| ⚠ In progress | Mood + activity patterns, still tweaking |
 | Desktop tooling | ⚠ Planned   | Companion webapp / deeper integration      |
 
----
+<div>&nbsp;</div>
 
 <!-- License -->
 ## :warning: License
 
 Distributed under the MIT License. See LICENSE.txt for more information.
 
-<div>&nbsp;</div>
+
 
 <!-- Contact -->
 ## :handshake: Contact
@@ -226,7 +228,7 @@ CiferTech - [@twitter](https://twitter.com/techcifer) - CiferTech@gmali.com
 
 Project Link: [https://github.com/cifertech/TamaFi](https://github.com/cifertech/TamaFi)
 
-<div>&nbsp;</div>
+
 
 <!-- Acknowledgments -->
 ## :gem: Acknowledgements 
