@@ -1,0 +1,4 @@
+pyserial>=3.5
+esptool>=4.7
+pywebview>=5.1
+pythonnet>=3.0

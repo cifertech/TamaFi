@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#1e3a44" />
+  <meta name="msapplication-navbutton-color" content="#1e3a44" />
+  <title>TamaFi Lab</title>
+  <link rel="icon" type="image/png" href="brand/mark.png" />
+  <link rel="shortcut icon" href="brand/app.ico" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="theme-PIXEL" data-link="off" data-page="device">
+  <aside class="rail">
+    <div class="brand" title="TamaFi Lab">
+      <img src="brand/mark.png" alt="TamaFi" />
+    </div>
+    <nav>
+      <button class="tab on" data-tab="device" title="Device">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="8" y="7" width="8" height="8" rx="1" fill="currentColor" opacity=".35"/></svg>
+        <span>Device</span>
+      </button>
+      <button class="tab" data-tab="pet" title="Pet">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19s-7-4.4-7-9a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 4.6-7 9-7 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        <span>Pet</span>
+      </button>
+      <button class="tab" data-tab="air" title="Environment">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16c4.5-5 11.5-5 16 0M7 13c3-3.4 7-3.4 10 0M10 10c1.4-1.5 2.6-1.5 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="19" r="1.2" fill="currentColor"/></svg>
+        <span>Radio</span>
+      </button>
+      <button class="tab" data-tab="sys" title="System">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 10h8M8 14h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span>System</span>
+      </button>
+      <button class="tab" data-tab="stamps" title="Stamps">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="14" y="4" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="4" y="14" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="14" y="14" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span>Stamps</span>
+      </button>
+      <button class="tab" data-tab="log" title="Log">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h12M6 12h12M6 18h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span>Log</span>
+      </button>
+      <button class="tab" data-tab="set" title="Settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 4.5v2M12 17.5v2M4.5 12h2M17.5 12h2M6.4 6.4l1.4 1.4M16.2 16.2l1.4 1.4M17.6 6.4l-1.4 1.4M7.8 16.2l-1.4 1.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span>Settings</span>
+      </button>
+      <button class="tab" data-tab="update" title="Update">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v10M8 11l4 4 4-4M6 19h12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Update</span>
+      </button>
+    </nav>
+  </aside>
+
+  <div class="shell">
+    <header class="top">
+      <div>
+        <h1 id="pageTitle">Device</h1>
+        <p class="sub" id="pageSub">Face, identity, and remote buttons</p>
+      </div>
+      <div class="tools">
+        <span class="dot" id="linkDot"></span>
+        <b id="linkText">Not connected</b>
+        <select id="port" aria-label="serial port"></select>
+        <button class="ghost" id="refresh">Refresh</button>
+        <button class="primary" id="connect">Connect</button>
+      </div>
+    </header>
+
+    <main>
+      <article class="sheet stage on" id="tab-device">
+        <div class="device-page">
+          <div class="device-stage">
+            <div class="device" id="gadget">
+              <div class="bezel">
+                <canvas id="face" width="240" height="240" aria-label="TamaFi display"></canvas>
+              </div>
+              <i class="usb"></i>
+              <div class="plug" id="plug">
+                <img class="plug-logo" src="brand/egg.png" alt="" />
+                <p id="plugTitle">Connect your TamaFi</p>
+                <small id="plugSub">USB cable · close Serial Monitor first</small>
+                <button class="primary" id="connectHero">Connect</button>
+              </div>
+            </div>
+          </div>
+          <div class="device-side">
+            <div class="card">
+              <header>
+                <h2>TamaFi Face</h2>
+                <small class="live"><span id="moodName">idle</span> · <span id="activityName">—</span></small>
+              </header>
+              <div class="kv"><span>Firmware</span><b id="fwName">Face 2.0</b></div>
+              <div class="kv"><span>Hardware</span><b>ESP32-S3</b></div>
+              <div class="kv"><span>Port</span><b id="portLabel">—</b></div>
+            </div>
+            <div class="card remote-card">
+              <header>
+                <h2>Remote</h2>
+                <small>Same as the hardware keys</small>
+              </header>
+              <div class="remote">
+                <div class="remote-col">
+                  <span>Pages</span>
+                  <button data-key="right1">Pet Status</button>
+                  <button data-key="right2">Environment</button>
+                  <button data-key="right3">RX Log</button>
+                </div>
+                <div class="remote-col">
+                  <span>Menu</span>
+                  <button data-key="up">Up</button>
+                  <button data-key="ok">Ok</button>
+                  <button data-key="down">Down</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="sheet" id="tab-pet">
+        <div class="grid-2">
+          <div class="card">
+            <header>
+              <h2>Pet status</h2>
+              <small id="activityHead">—</small>
+            </header>
+            <div class="kv"><span>Stage</span><b id="stage">—</b></div>
+            <div class="kv"><span>Age</span><b id="age">—</b></div>
+            <div class="kv"><span>Mood</span><b id="mood">—</b></div>
+          </div>
+          <div class="card">
+            <header><h2>Vitals</h2></header>
+            <div class="bar" data-key="hunger"><div class="barlab"><span>Hunger</span><em>0%</em></div><div class="pips"></div></div>
+            <div class="bar" data-key="happy"><div class="barlab"><span>Happy</span><em>0%</em></div><div class="pips"></div></div>
+            <div class="bar" data-key="energy"><div class="barlab"><span>Energy</span><em>0%</em></div><div class="pips"></div></div>
+            <div class="bar" data-key="health"><div class="barlab"><span>Health</span><em>0%</em></div><div class="pips"></div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="sheet" id="tab-air">
+        <div class="grid-2">
+          <div class="card">
+            <header>
+              <h2>Wi-Fi</h2>
+              <small id="airHead">CALM</small>
+            </header>
+            <div class="kv"><span>APs</span><b id="airAps">—</b></div>
+            <div class="kv"><span>Air</span><b id="airName">CALM</b></div>
+            <div class="kv"><span>Channel</span><b id="airCh">—</b></div>
+            <div class="kv"><span>RSSI</span><b id="airRssi">—</b></div>
+          </div>
+          <div class="card">
+            <header><h2>Radio</h2></header>
+            <div class="kv"><span>BLE</span><b id="airBle">—</b></div>
+            <div class="kv"><span>Deauth</span><b id="airDeauth">—</b></div>
+            <div class="kv"><span>Probes</span><b id="airProbe">—</b></div>
+            <div class="kv"><span>Hidden</span><b id="airHidden">—</b></div>
+            <div class="kv"><span>Open</span><b id="airOpen">—</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="sheet" id="tab-sys">
+        <div class="grid-2">
+          <div class="card">
+            <header><h2>Firmware</h2></header>
+            <div class="kv"><span>Sketch</span><b id="sysFw">—</b></div>
+            <div class="kv"><span>Protocol</span><b id="sysProto">—</b></div>
+            <div class="kv"><span>Board</span><b id="sysBoard">ESP32-S3</b></div>
+          </div>
+          <div class="card">
+            <header><h2>Runtime</h2></header>
+            <div class="kv"><span>Heap</span><b id="sysHeap">—</b></div>
+            <div class="kv"><span>Min heap</span><b id="sysMin">—</b></div>
+            <div class="kv"><span>Uptime</span><b id="sysUp">—</b></div>
+          </div>
+        </div>
+        <div class="card mood-card">
+          <header>
+            <h2>Mood preview</h2>
+            <small>All face poses</small>
+          </header>
+          <div class="mood-grid" id="moodGrid"></div>
+        </div>
+      </article>
+
+      <article class="sheet" id="tab-stamps">
+        <div class="card">
+          <header>
+            <h2>Stamps</h2>
+            <small id="stampCount">0/11</small>
+          </header>
+          <div class="stamp-list" id="stampCase"></div>
+        </div>
+      </article>
+
+      <article class="sheet" id="tab-log">
+        <div class="card log-card">
+          <header>
+            <h2>RX log</h2>
+          </header>
+          <div class="tape" id="tape"></div>
+        </div>
+      </article>
+
+      <article class="sheet" id="tab-set">
+        <div class="grid-2">
+          <div class="card">
+            <header><h2>Controls</h2></header>
+            <div class="kv"><span>Sleep</span><button class="tog" data-set="sleep" id="sleepTog" aria-pressed="false">Off</button></div>
+            <div class="kv"><span>Sound</span><button class="tog" data-set="sound" id="soundTog" aria-pressed="true">On</button></div>
+            <div class="kv"><span>LEDs</span><button class="tog" data-set="leds" id="ledsTog" aria-pressed="true">On</button></div>
+            <div class="kv"><span>Save now</span><button class="ghost" id="saveNow">Save</button></div>
+          </div>
+          <div class="card">
+            <header><h2>Appearance</h2></header>
+            <div class="block">
+              <span>Theme</span>
+              <div class="seg" id="themeSeg" data-set="theme">
+                <button data-val="PIXEL" class="on">Pixel</button>
+                <button data-val="AMBER">Amber</button>
+                <button data-val="LIME">Lime</button>
+                <button data-val="ICE">Ice</button>
+                <button data-val="ROSE">Rose</button>
+              </div>
+            </div>
+            <div class="block">
+              <span>Autosave</span>
+              <div class="seg" id="saveSeg" data-set="save">
+                <button data-val="15">15s</button>
+                <button data-val="30" class="on">30s</button>
+                <button data-val="60">60s</button>
+              </div>
+            </div>
+            <div class="block">
+              <span>Screen</span>
+              <div class="seg" id="tftSeg" data-set="tft">
+                <button data-val="LOW">Low</button>
+                <button data-val="MID" class="on">Mid</button>
+                <button data-val="HIGH">High</button>
+              </div>
+            </div>
+            <div class="block">
+              <span>LED brightness</span>
+              <div class="seg" id="ledSeg" data-set="led">
+                <button data-val="LOW">Low</button>
+                <button data-val="MID" class="on">Mid</button>
+                <button data-val="HIGH">High</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card about-card">
+          <img src="brand/mark.png" alt="TamaFi" />
+          <div>
+            <h2>TamaFi</h2>
+            <p>Face Dock companion · ESP32-S3 · 240×240</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="sheet" id="tab-update">
+        <div class="card update-card">
+          <header>
+            <img class="update-logo" src="brand/mark.png" alt="" />
+            <h2>Install from file</h2>
+          </header>
+          <p class="hint onboard" id="onboardHint" hidden>
+            This COM port is on USB but is not running Tamafi. Export the Tamafi sketch from Arduino — merged .bin at 0x0, or sketch .ino.bin at 0x10000. Close Serial Monitor, then Update. Lab will connect when PING succeeds.
+          </p>
+          <p class="hint">Export a compiled binary from Arduino. Close Serial Monitor, then write.</p>
+          <div class="binpick">
+            <button class="ghost" id="pickBin">Choose .bin</button>
+            <code id="binName">No file selected</code>
+          </div>
+          <p class="hint">Merged image at 0x0 · sketch.bin at 0x10000</p>
+          <button class="primary warn" id="flashBtn" disabled>Update</button>
+          <pre id="flashLog"></pre>
+        </div>
+      </article>
+    </main>
+
+    <footer id="note">Plug TamaFi in over USB. Close Serial Monitor, then Connect.</footer>
+  </div>
+
+  <div class="modal" id="modal" hidden>
+    <div class="dialog">
+      <h3 id="modalTitle">Update firmware?</h3>
+      <p id="modalBody"></p>
+      <div class="actions">
+        <button class="ghost" id="modalNo">Cancel</button>
+        <button class="primary" id="modalYes">Update</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="face.js"></script>
+  <script src="icons.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
