@@ -28,7 +28,8 @@
 
 Project write-up, rebuild notes, and the V2 design story live on the site:
 
-- [TamaFi V2: I Rebuilt My WiFi-Aware Pocket Pet](https://cifertech.net/tamafi-v2-i-rebuilt-my-wifi-aware-pocket-pet/)
+- [TamaFi Rebuilt (V3)](https://cifertech.net/tamafi-v2-i-rebuilt-my-wifi-aware-pocket-pet/)
+- [TamaFi (V2)](https://cifertech.net/tamafi-v2-a-virtual-pet-that-evolved-beyond-logic/)
 - [Original TamaFi (V1)](https://cifertech.net/tamafi-reviving-the-classic-virtual-pet-with-a-tech-twist/)
 
 <div>&nbsp;</div>
