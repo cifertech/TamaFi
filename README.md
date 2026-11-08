@@ -1,5 +1,3 @@
-
-
 <div align="center">
 
   <img src="https://github.com/user-attachments/assets/11102964-1235-43cf-9924-6c485556b22d" alt="TamaFi Banner" width="100%"/>
@@ -24,220 +22,174 @@
 
 </div>
 
+&nbsp;
+
+## 📖 Explore the Full Story
+
+Project write-up, rebuild notes, and the V2 design story live on the site:
+
+- [TamaFi V2: I Rebuilt My WiFi-Aware Pocket Pet](https://cifertech.net/tamafi-v2-i-rebuilt-my-wifi-aware-pocket-pet/)
+- [Original TamaFi (V1)](https://cifertech.net/tamafi-reviving-the-classic-virtual-pet-with-a-tech-twist/)
 
 <div>&nbsp;</div>
 
-
-## 📖 Explore the Full Documentation
-
-Ready to dive deeper into TamaFi's details? Discover the full story, in-depth tutorials, and all the exciting features in our comprehensive [documentation](https://cifertech.net/tamafi-reviving-the-classic-virtual-pet-with-a-tech-twist/). Click the link and explore further!
-  
-<div>&nbsp;</div>
-
-<!-- About the Project -->
 ## :star2: About the Project
-TamaFi is a modern, WiFi-aware virtual pet.  
-V2 rebuilds the original project with **new hardware**, **smarter logic**, and a **clean, compact PCB** that actually feels like a finished device.
 
-The pet lives on an ESP32-S3, eats nearby WiFi, evolves over time, and makes its own decisions based on the environment around it.
+**TamaFi** is an open-source pocket pet on a custom **ESP32-S3** board. It tracks stats, evolves through life stages, and reads the Wi-Fi and Bluetooth activity around it as its sense of the room.
 
-<img width="1280" height="720" alt="YouTube-Thumbnailtamafiaaa" src="https://github.com/user-attachments/assets/af6b2926-7c0a-49ef-aaa4-01414d803ea6" />
+This is a full V2 rebuild. The original used sprite-sheet faces and simple “Wi-Fi count → hunger” logic. V2 draws the face from code every frame, runs a real decision engine, and ships with a Windows companion app: **TamaFi Lab**.
+
+It runs fully standalone. No app required. Lab is optional.
+
+> [!NOTE]
+> In the current public firmware, radio sensing is **read-only**. No SSIDs or MAC addresses are stored, and nothing is transmitted for attacks. This project is for learning, tinkering, and fun.
+
+> [!IMPORTANT]
+> This PCB has **no working PSRAM**. The face owns **one** static 240×240 16-bit framebuffer. A second full-screen buffer will fail. That is a board limit, not a firmware bug.
 
 
-<div>&nbsp;</div>
 
-## ✨ Highlights (V2)
-
-- ⚙ **ESP32-S3 based** – more performance, native USB, better room for future features  
-- 🖥 **TFT ST7789 240×240** – full-color UI, custom sprites, status bars, menus  
-- 🧠 **Autonomous behavior engine** – the pet hunts, explores, rests, and reacts on its own  
-- 📶 **WiFi-fed** – nearby networks affect hunger, happiness, and health  
-- 🎛 **Full menu system** – Pet Status, Environment, System Info, Controls, Settings, Diagnostics  
-- 💾 **Persistent state** – age, stats, stage, settings stored in flash (Preferences)  
-- 🌈 **4× WS2812-2020 NeoPixels** – mood & activity feedback (happy/sad/wifi/rest patterns)  
-- 🔊 **Retro sound engine** – non-blocking chiptune-style beeps and sequences  
-- 🔋 **Battery-ready** – TP4056 charger + MOSFET-controlled TFT backlight  
-- 🖱 **6 soft tactile switches** – three on each side for navigation and shortcuts  
-- 🛠 **DisplayKit-ready UI workflow** – UI graphics can be designed/exported via DisplayKit
-
-> ⚠️ Some advanced / sensitive behaviors are intentionally simplified or left as placeholders in the public firmware.  
-> This project is for learning, tinkering, and fun — **not** for breaking things.
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/742623f6-e413-45d8-a381-5f590e7163bc" alt="" width="48%"/>
+  <img src="https://github.com/user-attachments/assets/b5c4ab4a-f494-4e2a-869a-9489e05949fd" alt="" width="48%"/>
+  <br/>
+ 
+</div>
 
 <div>&nbsp;</div>
 
-## 🧩 How TamaFi V2 Behaves
+## :dart: Features
 
-TamaFi isn’t just a sprite animation loop. It runs a small decision engine that constantly evaluates:
+### 👁 Face
 
-- Pet stats: `hunger`, `happiness`, `health`
-- Traits: curiosity, activity, stress
-- Environment: number of nearby networks, open/hidden networks, average RSSI
-- Time: age (minutes → hours → days)
+- **Code-drawn face** - built every frame. No sprite sheet, no stored bitmaps
+- **Hatch** - first boot cracks the egg, then the face comes alive
+- **Later boots** - short ASCII intro, then the eyes open
+- **Mood stages** - anticipation → expression → hold → rest, with spring motion
+- **Radio moods** - deauth glitch, probe alert, open-network wary look
 
-From that, it decides whether to:
+### 🧠 Pet Brain
 
-- 🍖 **Hunt** – use WiFi scan results to “feed” and adjust hunger/happiness/health  
-- 👁 **Explore** – react to open/hidden networks and network diversity  
-- 😴 **Rest** – enter a sleep cycle with special egg animation and recovery stats  
-- 😐 **Idle** – chill on the home screen with mood-based idle animations  
+- **Six stats** - hunger, energy, happiness, health, curiosity, comfort
+- **Life stages** - baby → teen → adult → elder (age in minutes, stored in NVS)
+- **Activities** - hunt, discover, rest, or idle. Weighted odds, no fixed loop
+- **Hunting** - uses nearby Wi-Fi / BLE activity to feed and adjust mood
+- **Discovering** - looks for open / interesting radio conditions
+- **Resting** - timed sleep face while stats recover
 
-### Mood system
+### 📡 The Air
 
-The pet mood changes based on stats + environment:
+- **Five states** - calm, busy, open, noisy, hostile
+- **Dual radio** - Wi-Fi and BLE take turns to stay inside the memory budget
+- **Hostile** - heavy deauth / disassoc activity. Sticks around, drops comfort, glitch face
+- **Privacy** - read-only in this build. No SSIDs, no MACs stored
 
-- `HUNGRY` – low hunger  
-- `HAPPY` – good stats + decent WiFi  
-- `CURIOUS` – hidden/open networks nearby  
-- `BORED` – no WiFi for too long  
-- `SICK` – low health or bad conditions  
-- `EXCITED` / `CALM` – good conditions & variety
+### 🎮 Controls & Body
 
-Mood affects:
+- **Priority order** - motion → microphone → pet activity (only one owns the face)
+- **MPU6050** - tilt to look, shake for dizzy, tap / nudge gestures
+- **INMP441 mic** - listens for nearby speech
+- **Speaker** - MAX98357A + real speaker. Sound auto-disables if heap gets low
+- **WS2812 LEDs** - four addressable LEDs for mood / status feedback
+- **Buttons** - UP / OK / DOWN for menus · RIGHT1 pet · RIGHT2 env · RIGHT3 log
 
-- Idle animation speed  
-- LED patterns  
-- How often it wants to hunt / explore / rest  
+### 📋 Menus & Progress
 
-### Evolution
+- **Pet menu** - stage, activity, live stats
+- **Environment** - air state, Wi-Fi / BLE counts, deauth / probe activity
+- **Event log** - rolling history of hunts, rests, radio events, mic / motion
+- **Stamps** - 11 achievements (first hunt, nap, grown, hostile, heard, day, week, …)
 
-Age is tracked in **minutes, hours, and days**:
+### 💻 TamaFi Lab
 
-- `BABY` → `TEEN` → `ADULT` → `ELDER`
-
-Evolution depends on:
-
-- Time alive  
-- Average of hunger / happiness / health  
-- Environment quality
-
-Reaching a new stage triggers special SFX + animations.
-
-<div>&nbsp;</div>
-
-## 🖥 UI & Menu System
-
-All rendering goes through a 240×240 framebuffer (`TFT_eSPI` + `TFT_eSprite`) to avoid flicker.
-
-### Home Screen
-
-- Pet sprite (idle / hunt / rest / special states)  
-- Background image  
-- Stats bars: Hunger, Happiness, Health  
-- Mood + Stage text  
-- Activity label in the top bar (`Idle`, `Hunting…`, `Resting…`, etc.)  
-- Overlays for special effects (e.g. hunger effect)
-
-### Menus
-
-Navigation is done using the left 3 buttons (UP / OK / DOWN).
-
-**Main Menu:**
-
-1. **Pet Status** – stats, mood, age, stage, short description  
-2. **Environment** – WiFi network counts, hidden/open, “signal mood”  
-3. **System Info** – firmware version, uptime, battery (if implemented), etc.  
-4. **Controls** – brightness, LED level, sound on/off, NeoPixel on/off  
-5. **Settings** – auto-sleep, auto-save interval, soft reset options  
-6. **Diagnostics** – debug info, test modes (non-destructive)  
-7. **Back to Home**
-
-Changes in Controls/Settings are saved to NVS via `Preferences`, so they persist across reboots.
+- **Live mirror** - face, stats, radio readings, log, and settings over USB
+- **Firmware flash** - upload from the desktop app
+- **Handshake** - Lab sends `PING` · device replies `PONG TAMAFI`
+- **Windows build** - packaged exe under `TamaFi Lab/`. No Python required to run
 
 <div>&nbsp;</div>
 
-## 🔌 Hardware Overview
+## 🔧 Hardware Overview
 
-> This is a summary of the V2 hardware stack.  
-> Check the `PCB/` and `Schematic/` directories for full details.
+- **MCU** - ESP32-S3-WROOM-1 (16 MB flash, native USB, Wi-Fi + BLE)
+- **Display** - ST7789 240×240 over SPI
+- **Motion** - MPU6050 (I2C)
+- **Audio in** - INMP441 MEMS microphone (I2S)
+- **Audio out** - MAX98357A → speaker
+- **LEDs** - 4× WS2812
+- **Buttons** - 6 soft tactile switches + ESP32 reset / boot
+- **Power** - USB-C · TP4056 Li-ion charge · LF33 3.3 V · SI2302 backlight MOSFET
+- **Camera** - OV2640 FPC footprint. **Unused** on this revision (connector pinout reversed; several lines share button GPIOs)
 
-### Core
-
-- **MCU:** ESP32-S3 module  
-- **Display:** 1.3–1.54" TFT ST7789 @ 240×240  
-- **Buttons:** 6× soft tactile switches  
-- **LEDs:** 4× WS2812-2020 addressable RGB  
-- **Buzzer:** driven with PWM (LEDc) for retro SFX
-
-### Power
-
-- **Charger:** TP4056 (single-cell Li-ion/Li-Po)  
-- **Backlight control:** MOSFET on TFT LED pin, driven by PWM for brightness levels  
-- **Power input:** USB-C (on PCB)  
-
-### Connectivity / Dev
-
-- ESP32-S3 native USB for firmware upload  
-- Optional **CP2102 USB-to-TTL** on the board for easier flashing / serial during development
+<img width="3240" height="1350" alt="tamafi slide carousel" src="https://github.com/user-attachments/assets/ba402331-dd55-42dd-a9b2-3f751a0b921e" />
 
 <div>&nbsp;</div>
 
-## 🧰 Firmware
+## ⚡ Flashing the Firmware
 
-The firmware is written for **Arduino IDE** using:
+Sketch folder: [`TamaFi/`](TamaFi/)
 
-- `TFT_eSPI`  
-- `Adafruit_NeoPixel`  
-- `WiFi`  
-- `Preferences`  
+1. Install **Arduino IDE** + Boards Manager package **esp32** by Espressif (**2.0.x**)
+2. Tools → Board → **ESP32S3 Dev Module**
+3. Critical settings:
+   - **USB CDC On Boot:** Enabled
+   - **PSRAM:** Disabled
+   - **USB Mode:** Hardware CDC and JTAG
+4. Libraries: [TFT_eSPI](https://github.com/Bodmer/TFT_eSPI) (Bodmer), [Adafruit NeoPixel](https://github.com/adafruit/Adafruit_NeoPixel)
+5. Pins live in [`TamaFi/tamafi_pins.h`](TamaFi/tamafi_pins.h) · TFT setup is already loaded by [`TamaFi/config.h`](TamaFi/config.h)
+6. Open `TamaFi/Tamafi.ino` → Upload
 
-### Core modules (conceptual)
+> Close **TamaFi Lab** and the Serial Monitor before uploading. Only one program can hold the COM port.
 
-- `main.ino` – hardware init, timers, logic tick, button handling  
-- `ui.cpp / ui.h` – rendering, menus, bar drawing, layout  
-- `ui_anim.h` – sprite frame tables for idle, egg, hunt, etc.  
-- `sound` – non-blocking retro sound sequencer using LEDc  
-- `state` – pet stats, traits, persistence with `Preferences`
+Arduino compiles every file inside the sketch folder. Keep experiments outside `TamaFi/` or they get built in by accident.
 
-> The code is structured around **non-blocking updates**:  
-> no `delay()` in the main logic, so animations, WiFi, sound, and UI can all coexist smoothly.
+### Quick checks if something fails
 
-<div>&nbsp;</div>
-
-## 🧪 Status
-
-> V2 is still under active development. Expect rough edges.
-
-| Area            | Status       | Notes                                      |
-|-----------------|-------------|--------------------------------------------|
-| Core stats      | ✅ Stable    | Hunger, happiness, health, age             |
-| Mood system     | ✅ Stable    | Driven by stats + WiFi environment         |
-| Evolution       | ✅ Stable    | Multi-stage, environment-aware             |
-| WiFi “feeding”  | ✅ Stable    | Logic works; tuning values ongoing       |
-| Rest system     | ✅ Stable    | Enter/exit animations + stat recovery      |
-| Hunt animation  | ✅ Stable    | Uses dedicated attack frames               |
-| Menus & UI      | ⚠ In progress | Layout & styling still evolving          |
-| Sound engine    | ✅ Stable    | Non-blocking retro SFX                     |
-| NeoPixel effects| ⚠ In progress | Mood + activity patterns, still tweaking |
-| Desktop tooling | ⚠ Planned   | Companion webapp / deeper integration      |
+- **No serial / Lab can’t see it** → CDC On Boot left disabled
+- **Crash / blank / reboot loop** → PSRAM enabled, or a second 240×240 buffer
+- **Buttons dead after “camera” experiments** → camera DVP lines share GPIOs with RIGHT1 / OK / DOWN
+- **Upload fails mid-way** → Lab or another serial tool still holding the port
 
 <div>&nbsp;</div>
 
-<!-- License -->
+## 🖥 TamaFi Lab
+
+Windows USB companion. Mirrors the pet live and can flash firmware.
+
+1. Plug in TamaFi
+2. Close Arduino Serial Monitor / any other COM tool
+3. Run the Lab build from [`TamaFi Lab/`](TamaFi%20Lab/)
+
+Keep the whole Lab folder together if you use a packaged build. The exe needs its `_internal` data next to it.
+
+Handshake over USB CDC at **115200**: `PING` → `PONG TAMAFI`.
+
+<div>&nbsp;</div>
+
 ## :warning: License
 
-Distributed under the MIT License. See LICENSE.txt for more information.
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 
 
-<!-- Contact -->
-## :handshake: Contact
+## Support & Contributions
 
-▶ Support me on Patreon [patreon.com/cifertech](https://www.patreon.com/cifertech)
-
-CiferTech - [@twitter](https://twitter.com/techcifer) - CiferTech@gmali.com
-
-Project Link: [https://github.com/cifertech/TamaFi](https://github.com/cifertech/TamaFi)
+- 💬 Found a bug or have a feature request? Open an [Issue](https://github.com/cifertech/TamaFi/issues)
+- ⭐ Like the project? Star the repo!
+- 🛠 Want to contribute? Fork it and submit a pull request
 
 
 
-<!-- Acknowledgments -->
-## :gem: Acknowledgements 
+## Contact
 
-**The libraries and projects listed below are used in this software:**
- - [Mecha-Stone Golem](https://darkpixel-kronovi.itch.io/mecha-golem-free)
- - [Fantasy Wooden GUI](https://kanekizlf.itch.io/fantasy-wooden-gui-free)
- - [MyPixelWorld](https://scarloxy.itch.io/mpwsp01)
- - [Transparent Sprites](https://github.com/VolosR/SpritesTuT)
+- Support me on Patreon [patreon.com/cifertech](https://www.patreon.com/cifertech)
+- CiferTech - [@X](https://twitter.com/techcifer) - CiferTech@gmail.com
+- Project Link: [https://github.com/cifertech/TamaFi](https://github.com/cifertech/TamaFi)
 
 
 
+## Acknowledgements
+
+- [TFT_eSPI](https://github.com/Bodmer/TFT_eSPI) (Bodmer)
+- [Adafruit NeoPixel](https://github.com/adafruit/Adafruit_NeoPixel)
+- [Fennec](https://github.com/cifertech/Fennec): same CiferTech ESP32-S3 house style
