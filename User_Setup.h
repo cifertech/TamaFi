@@ -1,50 +1,44 @@
+// TamaFi Configuration for ESP32-S3 ST7789 240x240
+// Pin mapping from TamaFi schematic
 
-#define USER_SETUP_INFO "My_User_Setup"
+// ===== DISPLAY DRIVER =====
+#define ST7789_DRIVER      
 
-//#define ST7789_2_DRIVER
+// ===== DISPLAY SIZE =====
+#define TFT_WIDTH  240
+#define TFT_HEIGHT 240
 
-#define ST7789_DRIVER 
+// ===== ESP32-S3 GPIO PINS =====
+// From schematic:
+//   SDA  -> IO35
+//   SCL  -> IO36
+//   CS   -> IO17
+//   D/C  -> IO16
+//   RST  -> RESET1 (hardware)
+//   LEDC -> IO7 (controlled in code)
 
+#define TFT_MOSI 35   // SDA
+#define TFT_SCLK 36   // SCL
+#define TFT_CS   17   // CS
+#define TFT_DC   16   // D/C
+#define TFT_RST  -1   // Hardware reset
+// TFT_BL = 7 controlled via PWM in main code
+
+#define USE_HSPI_PORT
+
+// ===== COLOR ORDER =====
 #define TFT_RGB_ORDER TFT_RGB
 
-#define TFT_WIDTH   240
-#define TFT_HEIGHT  340
-
-//#define TFT_MOSI    21  // aka SDA
-//#define TFT_SCLK    22  // aka SCL
-//#define TFT_CS      12  // Chip select control pin
-//#define TFT_DC      35  // Data Command control pin
-//#define TFT_RST     34   // Reset pin (could connect to Arduino RESET pin)
-//#define TFT_MISO    19  // "For some reason DMA requires that a MISO pin is defined" - https://github.com/Bodmer/TFT_eSPI/discussions/2233
-
-
-//#define TFT_MISO 19
-#define TFT_MOSI 23 	// aka SDA
-#define TFT_SCLK 18 	// aka SCL
-#define TFT_CS 22 	// Chip select control pin
-#define TFT_DC 21 	// Data Command control pin
-#define TFT_RST 12 	// Reset pin (could connect to RST pin)
-
-
-
-//#define TFT_MISO 19
-//#define TFT_MOSI 23 	// aka SDA
-//#define TFT_SCLK 18 	// aka SCL
-//#define TFT_CS 5 	// Chip select control pin
-//#define TFT_DC 2 	// Data Command control pin
-//#define TFT_RST 4 	// Reset pin (could connect to RST pin)
-
-
-#define LOAD_GLCD     // Font 1. Original Adafruit 8 pixel font needs ~1820 bytes in FLASH
-#define LOAD_FONT2    // Font 2. Small 16 pixel high font, needs ~3534 bytes in FLASH, 96 characters
-#define LOAD_FONT4    // Font 4. Medium 26 pixel high font, needs ~5848 bytes in FLASH, 96 characters
-#define LOAD_FONT6    // Font 6. Large 48 pixel font, needs ~2666 bytes in FLASH, only characters 1234567890:-.apm
-#define LOAD_FONT7    // Font 7. 7 segment 48 pixel font, needs ~2438 bytes in FLASH, only characters 1234567890:-.
-#define LOAD_FONT8    // Font 8. Large 75 pixel font needs ~3256 bytes in FLASH, only characters 1234567890:-.
-#define LOAD_GFXFF    // FreeFonts. Include access to the 48 Adafruit_GFX free fonts FF1 to FF48 and custom fonts
-
+// ===== FONTS =====
+#define LOAD_GLCD
+#define LOAD_FONT2
+#define LOAD_FONT4
+#define LOAD_FONT6
+#define LOAD_FONT7
+#define LOAD_FONT8
+#define LOAD_GFXFF
 #define SMOOTH_FONT
 
-#define SPI_FREQUENCY         27000000
-#define SPI_READ_FREQUENCY    20000000
-#define SPI_TOUCH_FREQUENCY   2500000
+// ===== SPI SPEED =====
+#define SPI_FREQUENCY        27000000
+#define SPI_READ_FREQUENCY   20000000
